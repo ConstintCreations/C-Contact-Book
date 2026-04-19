@@ -114,6 +114,12 @@ int main(int argc, char *argv[]) {
 
         char command = tolower(input[0]);
 
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+
         if (command == 'a') {
             printf("\n");
             printf("Name: ");
