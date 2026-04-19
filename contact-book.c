@@ -14,6 +14,82 @@ char phone[INPUT_LENGTH];
 
 int add_new_entry();
 
+typedef struct Contact {
+    char name[INPUT_LENGTH];
+    char address[INPUT_LENGTH];
+    char email[INPUT_LENGTH];
+    char phone[INPUT_LENGTH];
+} Contact;
+
+Contact contact_array[100];
+
+int read_from_csv(Contact contact_array[]) {
+    FILE *fptr;
+    char buffer[(INPUT_LENGTH * 4 + 5)];
+
+    int i = 0;
+
+    fptr = fopen(FILENAME, "r");
+    if (fptr == NULL) {
+        printf("Could not open %s\n", FILENAME);
+        return 0;
+    }
+
+    while(fgets(buffer, sizeof(buffer), fptr)) {
+        char *p = buffer;
+        while (*p == ' ' || *p == '\t' || *p == '\r' || *p == '\n') p++;
+        if (*p == '\0') continue;
+
+        char *new_line_pointer = strchr(buffer, '\n');
+        if (new_line_pointer) *new_line_pointer = '\0';
+
+        char *field = strtok(buffer, ",");
+        int x = 0;
+
+        while (field != NULL) {
+            if (x == 0) {
+                strncpy(contact_array[i].name, field, INPUT_LENGTH - 1);
+                contact_array[i].name[INPUT_LENGTH - 1] = '\0';
+            } else if (x == 1) {
+                strncpy(contact_array[i].address, field, INPUT_LENGTH - 1);
+                contact_array[i].address[INPUT_LENGTH - 1] = '\0';
+            } else if (x == 2) {
+                strncpy(contact_array[i].email, field, INPUT_LENGTH - 1);
+                contact_array[i].email[INPUT_LENGTH - 1] = '\0';
+            } else if (x == 3) {
+                strncpy(contact_array[i].phone, field, INPUT_LENGTH - 1);
+                contact_array[i].phone[INPUT_LENGTH - 1] = '\0';
+            }
+            x++;
+            field = strtok(NULL, ",");
+        }
+
+        i++;
+        if (i >= 100) break;
+    }
+
+    fclose(fptr);
+
+    return i;
+}
+
+void print_contact(const Contact *contact) {
+    printf("Name: %s\n", contact->name);
+    printf("Address: %s\n", contact->address);
+    printf("Email: %s\n", contact->email);
+    printf("Phone Number: %s\n\n", contact->phone);
+}
+
+int list_contacts() {
+    int contact_count = read_from_csv(contact_array);
+
+    for (int i = 0; i < contact_count; i++) {
+        print_contact(&contact_array[i]);
+    } 
+
+    return 0;
+}
+
 int main(int argc, char *argv[]) {
     if (argv[1] && argv[2] && argv[3] && argv[4]) {
         strncpy(name, argv[1], INPUT_LENGTH);
@@ -41,6 +117,8 @@ int main(int argc, char *argv[]) {
     }
     add_new_entry();
 
+    list_contacts();
+
     return 0;
 }
 
@@ -56,29 +134,3 @@ int add_new_entry() {
 
     return 0;
 }
-
-/*
-
-int main(int argc, char *argv[]) {
-    double a, b, answer;
-    char operator,*stopstring;
-    char *error = NULL;
-
-    if (argv[1] && argv[2] && argv[3]) {
-        a = strtod(argv[1], &stopstring);
-        operator = argv[2][0];
-        b = strtod(argv[3], &stopstring);
-    } else {
-        printf("First Number: ");
-        scanf("%lf", &a);
-
-        printf("Operator: ");
-        scanf(" %c", &operator);
-
-        printf("Second Number: ");
-        scanf("%lf", &b);
-
-        printf("\n");
-    }
-
-*/
