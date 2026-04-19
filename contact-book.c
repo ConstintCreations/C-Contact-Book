@@ -91,30 +91,29 @@ int list_contacts() {
 }
 
 int main(int argc, char *argv[]) {
-    if (argv[1] && argv[2] && argv[3] && argv[4]) {
-        strncpy(name, argv[1], INPUT_LENGTH);
-        strncpy(address, argv[2], INPUT_LENGTH);
-        strncpy(email, argv[3], INPUT_LENGTH);
-        strncpy(phone, argv[4], INPUT_LENGTH);
-    } else {
-        printf("Name: ");
-        fgets(name, INPUT_LENGTH, stdin);
-        name[strcspn(name, "\n")] = '\0';
 
-        printf("Address: ");
-        fgets(address, INPUT_LENGTH, stdin);
-        address[strcspn(address, "\n")] = '\0';
-
-        printf("Email: ");
-        fgets(email, INPUT_LENGTH, stdin);
-        email[strcspn(email, "\n")] = '\0';
-
-        printf("Phone Number: ");
-        fgets(phone, INPUT_LENGTH, stdin);
-        phone[strcspn(phone, "\n")] = '\0';
-
-        printf("\n");
+    if (argc > 1) {
+        FILENAME = argv[1];
     }
+
+    printf("Name: ");
+    fgets(name, INPUT_LENGTH, stdin);
+    name[strcspn(name, "\n")] = '\0';
+
+    printf("Address: ");
+    fgets(address, INPUT_LENGTH, stdin);
+    address[strcspn(address, "\n")] = '\0';
+
+    printf("Email: ");
+    fgets(email, INPUT_LENGTH, stdin);
+    email[strcspn(email, "\n")] = '\0';
+
+    printf("Phone Number: ");
+    fgets(phone, INPUT_LENGTH, stdin);
+    phone[strcspn(phone, "\n")] = '\0';
+
+    printf("\n");
+
     add_new_entry();
 
     list_contacts();
