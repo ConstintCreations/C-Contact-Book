@@ -74,10 +74,10 @@ int read_from_csv(Contact contact_array[]) {
 }
 
 void print_contact(const Contact *contact) {
-    printf("Name: %s\n", contact->name);
-    printf("Address: %s\n", contact->address);
-    printf("Email: %s\n", contact->email);
-    printf("Phone Number: %s\n\n", contact->phone);
+    printf("+-==[ %s ]==-\n", contact->name);
+    printf("| Address: %s\n", contact->address);
+    printf("| Email: %s\n", contact->email);
+    printf("+-Phone Number: %s\n\n", contact->phone);
 }
 
 int list_contacts() {
@@ -96,29 +96,64 @@ int main(int argc, char *argv[]) {
         FILENAME = argv[1];
     }
 
-    printf("Name: ");
-    fgets(name, INPUT_LENGTH, stdin);
-    name[strcspn(name, "\n")] = '\0';
+    char input[INPUT_LENGTH];
 
-    printf("Address: ");
-    fgets(address, INPUT_LENGTH, stdin);
-    address[strcspn(address, "\n")] = '\0';
+    printf("\n+-==[ Contact Book ]==-+\n");
+    printf("|                      |\n");
+    printf("|  [a]: Add a Contact  |\n");
+    printf("|  [l]: List Contacts  |\n");
+    printf("|  [h]: Help           |\n");
+    printf("|  [q]: Quit           |\n");
+    printf("|                      |\n");
+    printf("+-==[==============]==-+\n\n");
 
-    printf("Email: ");
-    fgets(email, INPUT_LENGTH, stdin);
-    email[strcspn(email, "\n")] = '\0';
+    while(1) {
 
-    printf("Phone Number: ");
-    fgets(phone, INPUT_LENGTH, stdin);
-    phone[strcspn(phone, "\n")] = '\0';
+        printf("Enter Command: ");
+        fgets(input, INPUT_LENGTH, stdin);
 
-    printf("\n");
+        char command = tolower(input[0]);
 
-    add_new_entry();
+        if (command == 'a') {
+            printf("\n");
+            printf("Name: ");
+            fgets(name, INPUT_LENGTH, stdin);
+            name[strcspn(name, "\n")] = '\0';
 
-    list_contacts();
+            printf("Address: ");
+            fgets(address, INPUT_LENGTH, stdin);
+            address[strcspn(address, "\n")] = '\0';
 
-    return 0;
+            printf("Email: ");
+            fgets(email, INPUT_LENGTH, stdin);
+            email[strcspn(email, "\n")] = '\0';
+
+            printf("Phone Number: ");
+            fgets(phone, INPUT_LENGTH, stdin);
+            phone[strcspn(phone, "\n")] = '\0';
+
+            add_new_entry();
+        } else if (command == 'l')
+        {
+            printf("\n");
+            list_contacts();
+        } else if (command == 'h') {
+            printf("\n+-==[  Help  Menu  ]==-+\n");
+            printf("|                      |\n");
+            printf("|  [a]: Add a Contact  |\n");
+            printf("|  [l]: List Contacts  |\n");
+            printf("|  [h]: Help           |\n");
+            printf("|  [q]: Quit           |\n");
+            printf("|                      |\n");
+            printf("+-==[==============]==-+\n\n");
+        } else if (command == 'q') {
+            printf("\nHave a Nice Day!\n\n");
+            return 0;
+        } else {
+            printf("\nUnknown command %c\n\n", command);
+        }
+    }
+
 }
 
 int add_new_entry() {
@@ -129,7 +164,7 @@ int add_new_entry() {
     fprintf(fptr, "\n%s, %s, %s, %s", name, address, email, phone);
     fclose(fptr);
 
-    printf("\nSaved Contact!\n\n");
+    printf("\nContact Created!\n\n");
 
     return 0;
 }
