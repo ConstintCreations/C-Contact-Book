@@ -9,7 +9,7 @@ This is a simple contact book built in C.
 The contact book features a menu with 4 commands: 
  - 'a' to add a contact
  - 'l' to list your contacts
- - 'h' to see the help menu
+ - 'h' to see the help menu (Note that the help menu looks very similar to the menu you see on startup)
  - 'q' to quit
 
 The terminal is cleared after every command to keep it clean.
